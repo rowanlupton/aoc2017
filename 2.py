@@ -37,41 +37,55 @@ def processToArray(raw_data):
 
     return processed_data
 
-### part one
-# def findMinAndMax(data):
-#     min_max = [None] * len(data)
-#     n = 0
-#     for x in data:
-#         minimum, maximum = x[0], x[0]
-#         for y in x:
-#             if int(y) < int(minimum):
-#                 minimum = y
-#             elif int(y) > int(maximum):
-#                 maximum = y
-#         min_max[n] = dict(minimum=minimum, maximum=maximum)
-#         n += 1
+# part one
+def findMinAndMax(data):
+    min_max = [None] * len(data)
+    n = 0
+    for x in data:
+        minimum, maximum = x[0], x[0]
+        for y in x:
+            if int(y) < int(minimum):
+                minimum = y
+            elif int(y) > int(maximum):
+                maximum = y
+        min_max[n] = dict(minimum=minimum, maximum=maximum)
+        n += 1
 
-#     return min_max
-
-
-# def getCheckSum(min_max):
-#     differences = [None] * len(min_max)
-#     n = 0
-#     for item in min_max:
-#         differences[n] = int(item['maximum']) - int(item['minimum'])
-#         n += 1
-
-#     checksum = sum(differences)
-#     return checksum
+    return min_max
 
 
-# data = processToArray(raw_numbers)
-# min_max = findMinAndMax(data)
-# checksum = getCheckSum(min_max)
-# print(checksum)
+def getCheckSum(min_max):
+    differences = [None] * len(min_max)
+    n = 0
+    for item in min_max:
+        differences[n] = int(item['maximum']) - int(item['minimum'])
+        n += 1
 
+    checksum = sum(differences)
+    return checksum
+
+
+data = processToArray(raw_numbers)
+
+min_max = findMinAndMax(data)
+checksum = getCheckSum(min_max)
+print("part 1: "+str(checksum))
 
 
 ### part two
 
-data = processToArray(raw_numbers)
+divided = []
+
+for x in data:
+    for y in range(0, len(x)):
+        for y2 in range(y+1, len(x)):
+
+            divided_result = int(x[y]) / int(x[y2])
+            inverse_divided_result = int(x[y2]) / int(x[y])
+
+            if divided_result.is_integer():
+                divided.append(int(divided_result))
+            elif inverse_divided_result.is_integer():
+                divided.append(int(inverse_divided_result))
+
+print('part 2: '+str(sum(divided)))
